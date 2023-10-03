@@ -1,40 +1,34 @@
-const { MongoClient } = require('mongodb');
-
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Create a new MongoClient
-const client = new MongoClient(url, { useUnifiedTopology: true });
-
-
 const express = require('express');
 
 const app = express();
 
 const PORT = 3000;
 
-// Connect to the server
-client.connect((err) => {
-    if (err) {
-      console.error('Failed to connect to the database:', err);
-      return;
-    }
-    console.log('Connected to the database');
-    
-    // Perform database operations here
-    
-    // Close the connection
-    client.close();
-  });
-  
 
 const products = [
     {
         id:1,
         title: 'phone',
         price: 5000
-    }
+    },
+    {
+      id:2,
+      title: 'watch',
+      price: 3000
+  }
 ]
+
+//get all products
+app.get('/api/products', (req, res) => {
+  res.json(products);
+})
+
+//get a single product
+app.get('/api/products/:id', (req, res) => {
+  const ProductID = +req.params.id;
+  const product = products.find((product)=> product.id === ProductID )
+  res.json(product);
+})
 
 app.listen(PORT, ()=>{
     console.log('listening on port', PORT)
