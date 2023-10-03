@@ -30,6 +30,8 @@ app.get('/api/products/:id', (req, res) => {
   res.json(product);
 })
 
+
+
 app.listen(PORT, ()=>{
     console.log('listening on port', PORT)
 });
