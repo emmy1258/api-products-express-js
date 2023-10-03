@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express();
 
+app.use(express.json());
+
 const PORT = 3000;
 
 
@@ -30,8 +32,16 @@ app.get('/api/products/:id', (req, res) => {
   res.json(product);
 })
 
+app.post('/api/products', (req, res) => {
+  console.log(req.body);
 
+  products.push({id: products.length + 1 , ...req.body})
+
+  res.json(products);
+})
 
 app.listen(PORT, ()=>{
     console.log('listening on port', PORT)
 });
+
+
