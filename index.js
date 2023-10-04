@@ -9,7 +9,7 @@ const {body, validationResult} = require('express-validator');
 const PORT = 3000;
 
 
-const products = [
+let products = [
     {
         id:1,
         title: 'phone',
@@ -60,6 +60,14 @@ app.patch('/api/products/:productID', (req, res) => {
 
   res.status(200).json(product);
 
+})
+
+//delete a product
+app.delete('api/products/:productID',(req, res) => {
+  const productID = +req.params.productID;
+  products = products.filter((product) => product.id !== productID )
+
+  res.status(200).json({success : true})
 })
 
 app.listen(PORT, ()=>{
