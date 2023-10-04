@@ -4,6 +4,8 @@ const app = express();
 
 app.use(express.json());
 
+const {body, validationResult} = require('express-validator');
+
 const PORT = 3000;
 
 
@@ -32,12 +34,14 @@ app.get('/api/products/:id', (req, res) => {
   res.json(product);
 })
 
-app.post('/api/products', (req, res) => {
+app.post('/api/products', body('title').notEmpty() ,(req, res) => {
   console.log(req.body);
+  const errors = validationResult(req);
 
+  console.log("errors", errors)
   products.push({id: products.length + 1 , ...req.body})
 
-  res.json(products);
+  res.status(201).json(products);
 })
 
 app.listen(PORT, ()=>{
