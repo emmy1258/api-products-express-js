@@ -34,14 +34,32 @@ app.get('/api/products/:id', (req, res) => {
   res.json(product);
 })
 
+//create a new course
+
 app.post('/api/products', body('title').notEmpty() ,(req, res) => {
   console.log(req.body);
   const errors = validationResult(req);
 
   console.log("errors", errors)
-  products.push({id: products.length + 1 , ...req.body})
+  const product = ({id: products.length + 1 , ...req.body})
 
   res.status(201).json(products);
+
+  console.log(products)
+})
+
+app.patch('/api/products/:productID', (req, res) => {
+  const productID = +req.params.productID;
+
+  let product = products.find((product) => product.id === productID);
+  if(!product) {
+    return res.status(404).json({message: 'Product not found'})
+  }
+
+  product = {...product, ...req.body};
+
+  res.status(200).json(product);
+
 })
 
 app.listen(PORT, ()=>{
